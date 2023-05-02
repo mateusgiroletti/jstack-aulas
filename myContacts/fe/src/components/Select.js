@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Select = styled.select`
+export default styled.select`
     width: 100%;
     border: none;
     background: #fff;

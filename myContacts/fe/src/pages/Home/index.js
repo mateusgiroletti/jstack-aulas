@@ -4,11 +4,15 @@ import arrow from "../../assets/icons/arrow.svg";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
 
+import Modal from "../../components/Modal";
+
 import { Container, InputSearchContainer, Header, ListContainer, Card } from "./styles";
 
 export default function Home() {
     return (
         <Container>
+            <Modal danger/>
+
             <InputSearchContainer>
                 <input type="text" placeholder="Pesquisar contato" />
             </InputSearchContainer>
