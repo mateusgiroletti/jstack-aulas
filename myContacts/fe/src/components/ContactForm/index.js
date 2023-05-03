@@ -32,10 +32,11 @@ export default function ContactForm({ buttonLabel }) {
         }
     }
 
-    function handleEmail(event) {
+    function handleEmailChange(event) {
         setEmail(event.target.value);
 
         if (event.target.value && !isEmailValid(event.target.value)) {
+            console.log("a");
             const errorAlreadyExists = errors.find((error) => error.field === "email");
 
             if (errorAlreadyExists) {
@@ -44,13 +45,17 @@ export default function ContactForm({ buttonLabel }) {
 
             setErrors((prevState) => [
                 ...prevState,
-                { field: "email", message: "Email é obrigátorio" }
+                { field: "email", message: "Email inválido" }
             ]);
         } else {
             setErrors((prevState) => prevState.filter(
-                (error) => error.field !== "name",
+                (error) => error.field !== "email",
             ));
         }
+    }
+
+    function getErrorMessageByFieldName(fieldName) {
+        return errors.find((error) => error.field === fieldName)?.message;
     }
 
     function handleSubmit(event) {
@@ -62,19 +67,21 @@ export default function ContactForm({ buttonLabel }) {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <FormGroup>
+            <FormGroup error={getErrorMessageByFieldName("name")}>
                 <Input
                     value={name}
                     placeholder="Nome"
                     onChange={handleNameChange}
+                    error={getErrorMessageByFieldName("name")}
                 />
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup error={getErrorMessageByFieldName("email")}>
                 <Input
                     value={email}
                     placeholder="E-mail"
-                    onChange={handleEmail}
+                    onChange={handleEmailChange}
+                    error={getErrorMessageByFieldName("email")}
                 />
             </FormGroup>
 
