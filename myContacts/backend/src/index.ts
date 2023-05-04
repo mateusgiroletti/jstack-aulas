@@ -1,13 +1,13 @@
-import express, { Request, Response, NextFunction, ErrorRequestHandler } from "express";
+import express from "express";
 import router from "./routes";
+import cors from "./middlewares/cors";
+import errorHandler from "./middlewares/errorHandler";
 
 const app = express();
 
 app.use(express.json());
+app.use(cors);
 app.use(router);
-app.use((error: ErrorRequestHandler, request: Request, response: Response, next: NextFunction) => {
-    console.error(error);
-    response.status(500).send("Something broke!");
-});
+app.use(errorHandler);
 
-app.listen(3000);
+app.listen(3001);
