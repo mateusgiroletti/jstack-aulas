@@ -7,8 +7,9 @@ import trash from "../../assets/icons/trash.svg";
 
 import Loader from "../../components/Loader";
 
+import ContactsService from "../../services/ContactsService";
+
 import { Container, InputSearchContainer, Header, ListContainer, Card } from "./styles";
-import { delay } from "../../utils/helpers";
 
 export default function Home() {
     const [contacts, setContacts] = useState([]);
@@ -17,15 +18,13 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setIsLoading(true);
 
         async function loadContacts() {
             try {
-                const response = await fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`);
-                await delay();
+                setIsLoading(true);
 
-                const json = await response.json();
-                setContacts(json);
+                const contactsList = await ContactsService.listContacts(orderBy);
+                setContacts(contactsList);
             } catch (error) {
                 console.log("erro", error);
             } finally {
