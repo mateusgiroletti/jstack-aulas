@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import arrow from "../../assets/icons/arrow.svg";
@@ -21,16 +21,7 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
-    useEffect(() => {
-        loadContacts();
-    }, [orderBy]);
-
-
-    const filteredContacts = useMemo(() => contacts.filter((contact) => (
-        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )), [contacts, searchTerm]);
-
-    async function loadContacts() {
+    const loadContacts = useCallback(async () => {
         try {
             setIsLoading(true);
 
@@ -43,7 +34,16 @@ export default function Home() {
         } finally {
             setIsLoading(false);
         }
-    }
+    }, [orderBy]);
+
+    useEffect(() => {
+        loadContacts();
+    }, [loadContacts]);
+
+
+    const filteredContacts = useMemo(() => contacts.filter((contact) => (
+        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )), [contacts, searchTerm]);
 
     function handleTryAgain() {
         loadContacts();
