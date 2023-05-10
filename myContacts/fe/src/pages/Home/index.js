@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 
@@ -5,6 +6,8 @@ import arrow from "../../assets/icons/arrow.svg";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
 import sad from "../../assets/images/sad.svg";
+import emptyBox from "../../assets/images/empty-box.svg";
+import magnifierQuestion from "../../assets/images/magnifier-question.svg";
 
 import Loader from "../../components/Loader";
 
@@ -12,7 +15,7 @@ import ContactsService from "../../services/ContactsService";
 
 import Button from "../../components/Button";
 
-import { Container, InputSearchContainer, Header, ListContainer, Card, ErrorContatiner } from "./styles";
+import { Container, InputSearchContainer, Header, ListContainer, Card, ErrorContatiner, EmptyListContainer, SearchNotFoundContainer } from "./styles";
 
 export default function Home() {
     const [contacts, setContacts] = useState([]);
@@ -61,17 +64,29 @@ export default function Home() {
         <Container>
             <Loader isLoading={isLoading} />
 
-            <InputSearchContainer>
-                <input
-                    value={searchTerm}
-                    type="text"
-                    placeholder="Pesquisar contato"
-                    onChange={handleChangeSearchTerm}
-                />
-            </InputSearchContainer>
+            {contacts.length > 0 && (
+                <InputSearchContainer>
+                    <input
+                        value={searchTerm}
+                        type="text"
+                        placeholder="Pesquisar contato"
+                        onChange={handleChangeSearchTerm}
+                    />
+                </InputSearchContainer>
+            )}
 
-            <Header hasError={hasError}>
-                {!hasError && (
+            <Header
+                justifyContent={
+                    hasError
+                        ? "flex-end"
+                        : (
+                            contacts.length > 0
+                                ? "space-between"
+                                : "center"
+                        )
+                }
+            >
+                {(!hasError && contacts.length > 0) && (
                     <strong>
                         {filteredContacts.length}
                         {filteredContacts.length === 1 ? " contato" : " contatos"}
@@ -94,6 +109,28 @@ export default function Home() {
 
             {!hasError && (
                 <>
+                    {(contacts.length < 1 && !isLoading) && (
+                        <EmptyListContainer>
+                            <img src={emptyBox} alt="Empty box" />
+
+                            <p>
+                                Você ainda não tem nenhum contato cadastrado!
+                                Clique no botão <strong>"Novo contato"</strong> à cima
+                                para cadastrar o seu primeiro!
+                            </p>
+                        </EmptyListContainer>
+                    )}
+
+                    {(filteredContacts.length < 1 && !isLoading) && (
+                        <SearchNotFoundContainer>
+                            <img src={magnifierQuestion} alt="Magnifer question" />
+
+                            <span>
+                                Nenhum resultado foi encontrado para <strong>{searchTerm}</strong>
+                            </span>
+                        </SearchNotFoundContainer>
+                    )}
+
                     {filteredContacts.length > 0 && (
                         <ListContainer orderBy={orderBy}>
                             <button type="button" onClick={handleToggleOrderBy}>
