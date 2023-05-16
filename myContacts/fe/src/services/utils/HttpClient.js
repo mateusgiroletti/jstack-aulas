@@ -22,14 +22,12 @@ class HttpClient {
     }
 
     async makeRequest(path, options) {
-        await delay();
+        await delay(1000);
 
         const headers = new Headers();
 
         if (options.body) {
-            headers.append({
-                "Content-Type": "application/json"
-            });
+            headers.append("Content-Type", "application/json");
         }
 
         if (options.headers) {
@@ -44,7 +42,7 @@ class HttpClient {
 
         const response = await fetch(`${this.baseURL}${path}`, {
             method: options.method,
-            body: options.body,
+            body: JSON.stringify(options.body),
             headers
         });
 
