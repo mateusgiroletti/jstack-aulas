@@ -5,19 +5,19 @@ import checkCircleIcon from "../../../assets/icons/check-circle.svg";
 
 import { Container } from "./styles";
 
-export default function ToastMessage({ message, type }) {
+export default function ToastMessage({ text, type }) {
     return (
         <Container type={type}>
             {type === "danger" && <img src={xCircleIcon} />}
             {type === "success" && <img src={checkCircleIcon} />}
 
-            <strong>{message}</strong>
+            <strong>{text}</strong>
         </Container>
     );
 }
 
 ToastMessage.propTypes = {
-    message: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
     type: PropTypes.oneOf(["default", "success", "danger"])
 };
 
