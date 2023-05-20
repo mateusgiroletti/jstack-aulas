@@ -13,11 +13,3 @@ export function formatPhone(phoneNumber) {
 export function delay(milliseconds = 500) {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
-
-export function toast({ type, text }) {
-    const event = new CustomEvent("addtoast", {
-        detail: { type, text }
-    });
-
-    return document.dispatchEvent(event);
-}
