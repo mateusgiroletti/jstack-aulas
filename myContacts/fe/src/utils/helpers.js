@@ -10,6 +10,14 @@ export function formatPhone(phoneNumber) {
         .replace(/(\d{1})?(\d{4})(\d{4})/, "$1$2-$3");
 }
 
-export function delay(milliseconds = 500){
+export function delay(milliseconds = 500) {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+export function toast({ type, text }) {
+    const event = new CustomEvent("addtoast", {
+        detail: { type, text }
+    });
+
+    return document.dispatchEvent(event);
 }
