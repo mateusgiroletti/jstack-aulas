@@ -46,7 +46,9 @@ export default function EditContact() {
                 categoryId: formData.categoryId
             };
 
-            await ContactsService.updateContacts(id, contact);
+            const contactData = await ContactsService.updateContacts(id, contact);
+
+            setContactName(contactData.name);
 
             toast({
                 type: "success",
