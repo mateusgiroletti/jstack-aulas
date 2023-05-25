@@ -16,6 +16,7 @@ import ContactsService from "../../services/ContactsService";
 import Button from "../../components/Button";
 
 import { Container, InputSearchContainer, Header, ListContainer, Card, ErrorContatiner, EmptyListContainer, SearchNotFoundContainer } from "./styles";
+import Modal from "../../components/Modal";
 
 export default function Home() {
     const [contacts, setContacts] = useState([]);
@@ -63,6 +64,14 @@ export default function Home() {
     return (
         <Container>
             <Loader isLoading={isLoading} />
+
+            <Modal
+                danger
+                title="Tem certeza que deseja remover o contato "
+                confirmLabel="Deletar"
+            >
+                <p>aaaa</p>
+            </Modal>
 
             {contacts.length > 0 && (
                 <InputSearchContainer>
