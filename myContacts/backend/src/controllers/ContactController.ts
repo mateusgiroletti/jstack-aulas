@@ -79,7 +79,7 @@ class ContactController {
 
         const contactByEmail = await ContactRepository.findByEmail(email);
 
-        if (contactByEmail) {
+        if (contactByEmail && contactByEmail.email !== email) {
             return response.status(400).json({ error: "This e-mail is already been taken" });
         }
 
