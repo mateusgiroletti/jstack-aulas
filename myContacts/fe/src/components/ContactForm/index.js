@@ -22,7 +22,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
     const [categoryId, setCategoryId] = useState("");
     const [categories, setCategories] = useState([]);
     const [isLoadingCategories, setIsLoadingCategories] = useState(true);
-    const [isSubmitting, setisSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { setError, removeError, getErrorMessageByFieldName, errors } = useErrors();
 
@@ -78,7 +78,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
     async function handleSubmit(event) {
         event.preventDefault();
 
-        setisSubmitting(true);
+        setIsSubmitting(true);
 
         await onSubmit(
             {
@@ -89,12 +89,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
             }
         );
 
-        setisSubmitting(false);
-
-        setName("");
-        setEmail("");
-        setPhone("");
-        setCategoryId("");
+        setIsSubmitting(false);
     }
 
     return (
