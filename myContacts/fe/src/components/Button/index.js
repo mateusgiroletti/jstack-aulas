@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 import { StyledButton } from "./styles";
 import Spinner from "../Spinner";
 
-export default function Button({ type, disabled, isLoading, children, danger, onClick }) {
+export default function Button({
+    type,
+    disabled,
+    isLoading,
+    children,
+    danger,
+    onClick
+}) {
     return (
         <StyledButton
             type={type}
