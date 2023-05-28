@@ -15,5 +15,9 @@ export default function ReactPortal({ containerId, children }) {
 }
 
 ReactPortal.propTypes = {
-    containerId: PropTypes.string.isRequired
+    containerId: PropTypes.string
+};
+
+ReactPortal.defaultProps = {
+    containerId: "portal-root"
 };
