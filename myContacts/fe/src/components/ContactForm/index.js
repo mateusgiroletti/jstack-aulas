@@ -12,6 +12,7 @@ import useErrors from "../../hooks/useErrors";
 
 import { Form, ButtonContainer } from "./styles";
 import CategoryService from "../../services/CategoryService";
+import useSafeAsyncState from "../../hooks/useSafeAsyncState";
 
 
 // eslint-disable-next-line react/display-name
@@ -20,8 +21,8 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [categoryId, setCategoryId] = useState("");
-    const [categories, setCategories] = useState([]);
-    const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+    const [categories, setCategories] = useSafeAsyncState([]);
+    const [isLoadingCategories, setIsLoadingCategories] = useSafeAsyncState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { setError, removeError, getErrorMessageByFieldName, errors } = useErrors();
@@ -55,7 +56,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
         }
 
         loadCategories();
-    }, []);
+    }, [setCategories, setIsLoadingCategories]);
 
     function handleNameChange(event) {
         setName(event.target.value);
