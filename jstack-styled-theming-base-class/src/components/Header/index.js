@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 
+import PropTypes from "prop-types";
+
 import { Container } from './styles';
 
 export default class Header extends Component {
+    static propTypes = {
+        selectedTheme: PropTypes.string.isRequerid,
+        selectedTheme: PropTypes.func.isRequerid,
+    };
+
     render() {
         const { onToggleTheme, selectedTheme } = this.props;
 
