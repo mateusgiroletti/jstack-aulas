@@ -11,7 +11,7 @@ import Button from "../Button";
 import useErrors from "../../hooks/useErrors";
 
 import { Form, ButtonContainer } from "./styles";
-import CategoryService from "../../services/CategoryService";
+import CategoryService from "../../services/CategoriesService";
 import useSafeAsyncState from "../../hooks/useSafeAsyncState";
 
 
