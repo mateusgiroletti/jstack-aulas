@@ -48,7 +48,6 @@ export default function Home() {
         loadContacts();
     }, [loadContacts]);
 
-
     const filteredContacts = useMemo(() => contacts.filter((contact) => (
         contact.name.toLowerCase().includes(searchTerm.toLowerCase())
     )), [contacts, searchTerm]);
@@ -192,8 +191,8 @@ export default function Home() {
                             <div className="info">
                                 <div className="contact-name">
                                     <strong>{contact.name}</strong>
-                                    {contact.category_name && (
-                                        <small>{contact.category_name}</small>
+                                    {contact.category.name && (
+                                        <small>{contact.category.name}</small>
                                     )}
                                 </div>
                                 <span>{contact.email}</span>
