@@ -2,8 +2,10 @@ import PropTypes from "prop-types";
 
 import Button from "../Button";
 
-import { Overlay, Container, Footer } from "./styles";
 import ReactPortal from "../ReactPortal";
+import useAnimatedUnmount from "../../hooks/useAnimatedUnmount";
+
+import { Overlay, Container, Footer } from "./styles";
 
 export default function Modal({
     danger,
@@ -16,11 +18,11 @@ export default function Modal({
     onCancel,
     onConfirm
 }) {
+    const { shouldRender, animatedElementRef } = useAnimatedUnmount(visible);
 
-    if (!visible) {
+    if (!shouldRender) {
         return null;
     }
-
 
     const container = document.createElement("div");
     container.setAttribute("id", "modal-root");
@@ -28,8 +30,8 @@ export default function Modal({
 
     return (
         <ReactPortal containerId="modal-root">
-            <Overlay>
-                <Container danger={danger}>
+            <Overlay isLeaving={!visible} ref={animatedElementRef}>
+                <Container danger={danger} isLeaving={!visible}>
                     <h1>{title}</h1>
 
                     <div className="modal-body">
