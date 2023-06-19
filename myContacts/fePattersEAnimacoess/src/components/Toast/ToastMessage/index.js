@@ -1,8 +1,8 @@
 import { memo, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import xCircleIcon from "../../../assets/images/icons/x-circle.svg";
-import checkCircleIcon from "../../../assets/images/icons/check-circle.svg";
+import xCircleIcon from "../../../assets/icons/x-circle.svg";
+import checkCircleIcon from "../../../assets/icons/check-circle.svg";
 
 import { Container } from "./styles";
 

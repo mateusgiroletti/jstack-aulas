@@ -76,6 +76,8 @@ export default function useHome() {
                 type: "danger",
                 text: "Ocorreu um erro ao tentar deletar o contato!"
             });
+        }finally{
+            setIsLoadingDelete(false);
         }
     }
 
