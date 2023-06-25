@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useTransition } from "react";
+import { useEffect, useState, useCallback, useMemo, useDeferredValue } from "react";
 
 import ContactsService from "../../services/ContactsService";
 
@@ -7,18 +7,17 @@ import toast from "../../utils/toast";
 export default function useHome() {
     const [contacts, setContacts] = useState([]);
     const [orderBy, setOrderBy] = useState("asc");
-    const [searchTerm, setSearchTerm] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     const [isDeleteModalVisible, setIsDeleteModalVisibel] = useState(false);
     const [contactBeingDeleted, setContactBeingDeleted] = useState(null);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-    const [filteredContacts, setFilteredContacts] = useState([]);
-    const [isPending, startTransition] = useTransition();
+    const [searchTerm, setSearchTerm] = useState("");
+    const deferredSearchTerm = useDeferredValue(searchTerm);
 
-    /* const filteredContacts = useMemo(() => contacts.filter((contact) => (
-        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )), [contacts, searchTerm]); */
+    const filteredContacts = useMemo(() => contacts.filter((contact) => (
+        contact.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
+    )), [contacts, deferredSearchTerm]);
 
     const loadContacts = useCallback(async () => {
         try {
@@ -28,7 +27,6 @@ export default function useHome() {
 
             setHasError(false);
             setContacts(contactsList);
-            setFilteredContacts(contactsList);
         } catch (error) {
             setHasError(true);
             setContacts([]);
@@ -40,8 +38,6 @@ export default function useHome() {
     useEffect(() => {
         loadContacts();
     }, [loadContacts]);
-
-
 
     function handleTryAgain() {
         loadContacts();
@@ -55,13 +51,6 @@ export default function useHome() {
         const { value } = event.target;
 
         setSearchTerm(value);
-
-        startTransition(() => {
-            setFilteredContacts(contacts.filter((contact) => (
-                contact.name.toLowerCase().includes(value.toLowerCase())
-            )));
-        });
-
     }
 
     const handleDeleteContact = useCallback((contact) => {
@@ -110,8 +99,7 @@ export default function useHome() {
         orderBy,
         handleToggleOrderBy,
         handleDeleteContact,
-        filteredContacts,
-        isPending
+        filteredContacts
     };
 
 }
