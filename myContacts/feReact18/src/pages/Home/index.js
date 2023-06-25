@@ -27,7 +27,8 @@ export default function Home() {
         orderBy,
         handleToggleOrderBy,
         handleDeleteContact,
-        filteredContacts
+        filteredContacts,
+        isPending
     } = useHome();
 
     const hasContacts = contacts.length > 0;
@@ -57,6 +58,8 @@ export default function Home() {
 
             {hasContacts && (
                 <>
+                    {isPending && <h1>Carregando....</h1>}
+                    
                     <ContactList
                         filteredContacts={filteredContacts}
                         orderBy={orderBy}

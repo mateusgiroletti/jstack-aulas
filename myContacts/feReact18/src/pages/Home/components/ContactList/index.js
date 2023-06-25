@@ -8,8 +8,9 @@ import edit from "../../../../assets/icons/edit.svg";
 import trash from "../../../../assets/icons/trash.svg";
 
 import { Card, ListContainer } from "./styles";
+import { memo } from "react";
 
-export default function ContactList({
+function ContactList({
     filteredContacts,
     orderBy,
     onToggleOrderBy,
@@ -70,3 +71,5 @@ ContactList.propTypes = {
     onToggleOrderBy: PropTypes.func.isRequired,
     onDeleteContact: PropTypes.func.isRequired,
 };
+
+export default memo(ContactList);

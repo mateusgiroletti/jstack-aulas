@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback, useTransition } from "react";
 
 import ContactsService from "../../services/ContactsService";
 
@@ -13,6 +13,12 @@ export default function useHome() {
     const [isDeleteModalVisible, setIsDeleteModalVisibel] = useState(false);
     const [contactBeingDeleted, setContactBeingDeleted] = useState(null);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+    const [filteredContacts, setFilteredContacts] = useState([]);
+    const [isPending, startTransition] = useTransition();
+
+    /* const filteredContacts = useMemo(() => contacts.filter((contact) => (
+        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )), [contacts, searchTerm]); */
 
     const loadContacts = useCallback(async () => {
         try {
@@ -22,6 +28,7 @@ export default function useHome() {
 
             setHasError(false);
             setContacts(contactsList);
+            setFilteredContacts(contactsList);
         } catch (error) {
             setHasError(true);
             setContacts([]);
@@ -34,26 +41,33 @@ export default function useHome() {
         loadContacts();
     }, [loadContacts]);
 
-    const filteredContacts = useMemo(() => contacts.filter((contact) => (
-        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )), [contacts, searchTerm]);
+
 
     function handleTryAgain() {
         loadContacts();
     }
 
-    function handleToggleOrderBy() {
+    const handleToggleOrderBy = useCallback(() => {
         setOrderBy((prevState) => (prevState === "asc" ? "desc" : "asc"));
-    }
+    }, []);
 
     function handleChangeSearchTerm(event) {
-        setSearchTerm(event.target.value);
+        const { value } = event.target;
+
+        setSearchTerm(value);
+
+        startTransition(() => {
+            setFilteredContacts(contacts.filter((contact) => (
+                contact.name.toLowerCase().includes(value.toLowerCase())
+            )));
+        });
+
     }
 
-    function handleDeleteContact(contact) {
+    const handleDeleteContact = useCallback((contact) => {
         setIsDeleteModalVisibel(true);
         setContactBeingDeleted(contact);
-    }
+    }, []);
 
     function handleCloseDeleteModal() {
         setIsDeleteModalVisibel(false);
@@ -76,7 +90,7 @@ export default function useHome() {
                 type: "danger",
                 text: "Ocorreu um erro ao tentar deletar o contato!"
             });
-        }finally{
+        } finally {
             setIsLoadingDelete(false);
         }
     }
@@ -96,7 +110,8 @@ export default function useHome() {
         orderBy,
         handleToggleOrderBy,
         handleDeleteContact,
-        filteredContacts
+        filteredContacts,
+        isPending
     };
 
 }
