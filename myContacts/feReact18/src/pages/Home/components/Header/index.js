@@ -21,8 +21,8 @@ export default function Header({
         >
             {(!hasError && quantityOfContacts > 0) && (
                 <strong>
-                    {quantityOfFilteredContacts.length}
-                    {quantityOfFilteredContacts.length === 1 ? " contato" : " contatos"}
+                    {quantityOfFilteredContacts}
+                    {quantityOfFilteredContacts === 1 ? " contato" : " contatos"}
                 </strong>
             )}
             <Link to="/new">Novo contato</Link>
