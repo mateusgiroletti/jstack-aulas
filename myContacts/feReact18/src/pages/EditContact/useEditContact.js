@@ -29,7 +29,11 @@ export default function useEditContact() {
                 });
 
 
-            } catch {
+            } catch (error) {
+                if (error instanceof DOMException && error.name === "AbortError") {
+                    return;
+                }
+
                 safeAsyncAction(() => {
                     history.push("/");
                     toast({
