@@ -37,9 +37,11 @@ export default function useContactForm(onSubmit, ref) {
     }), []);
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         async function loadCategories() {
             try {
-                const categoriesList = await CategoryService.listCategories();
+                const categoriesList = await CategoryService.listCategories(abortController.signal);
 
                 setCategories(categoriesList);
             } catch { } finally {
@@ -48,6 +50,10 @@ export default function useContactForm(onSubmit, ref) {
         }
 
         loadCategories();
+
+        return () => {
+            abortController.abort();
+        };
     }, [setCategories, setIsLoadingCategories]);
 
     function handleNameChange(event) {

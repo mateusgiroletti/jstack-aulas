@@ -16,9 +16,11 @@ export default function useEditContact() {
     const safeAsyncAction = useSafeAsyncAction();
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         async function loadContact() {
             try {
-                const contact = await ContactsService.getContactById(id);
+                const contact = await ContactsService.getContactById(id, abortController.signal);
 
                 safeAsyncAction(() => {
                     contactFormRef.current.setFieldsValues(contact);
@@ -39,6 +41,10 @@ export default function useEditContact() {
         }
 
         loadContact();
+
+        return () => {
+            abortController.abort();
+        };
     }, [id, history, safeAsyncAction]);
 
     async function handleSubmit(formData) {
