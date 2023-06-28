@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import toast from "../../utils/toast";
 
@@ -11,7 +11,7 @@ export default function useEditContact() {
     const [contactName, setContactName] = useState("");
     const contactFormRef = useRef("");
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const { id } = useParams();
     const safeAsyncAction = useSafeAsyncAction();
 
@@ -35,7 +35,7 @@ export default function useEditContact() {
                 }
 
                 safeAsyncAction(() => {
-                    history.push("/");
+                    navigate("/", { replace: true });
                     toast({
                         type: "danger",
                         text: "Contato não encontrado!"
@@ -49,7 +49,7 @@ export default function useEditContact() {
         return () => {
             abortController.abort();
         };
-    }, [id, history, safeAsyncAction]);
+    }, [id, navigate, safeAsyncAction]);
 
     async function handleSubmit(formData) {
         try {
