@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS contacts(
     email VARCHAR UNIQUE,
     phone VARCHAR,
     categoryId UUID,
-    FOREIGN KEY(category_id) REFERENCES categories(id)
+    FOREIGN KEY(categoryId) REFERENCES categories(id)
 );
