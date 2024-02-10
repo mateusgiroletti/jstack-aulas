@@ -1,4 +1,10 @@
-CREATE DATABASE mycontacts;
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'mycontacts') THEN
+        CREATE DATABASE mycontacts;
+    END IF;
+END $$;
+
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
